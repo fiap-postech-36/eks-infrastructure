@@ -1,9 +1,6 @@
-data "aws_eks_cluster" "existing_cluster" {
-  name = "${var.cluster_name}-cluster"
-}
 
 resource "aws_eks_cluster" "cluster-created" {
-  count    = length(data.aws_eks_cluster.existing_cluster) > 0 ? 0 : 1
+  count = var.create_eks || contains(data.aws_eks_clusters.clusters.names, var.cluster_name) ? 1 : 0
   name     = "${var.cluster_name}-cluster"
   role_arn = data.aws_iam_role.name.arn
 
@@ -24,13 +21,9 @@ resource "aws_eks_cluster" "cluster-created" {
   }
 }
 
-data "aws_eks_node_group" "existing_node_group" {
-  cluster_name    = "${var.cluster_name}-cluster"
-  node_group_name = "${var.cluster_name}-node-group"
-}
 
 resource "aws_eks_node_group" "node_cluster_group" {
-  count           = length(data.aws_eks_node_group.existing_node_group) > 0 ? 0 : 1
+  count = length(aws_eks_cluster.cluster-created) > 0 ? 1 : 0
   cluster_name    = "${var.cluster_name}-cluster"
   node_group_name = "${var.cluster_name}-node-group"
   node_role_arn   = data.aws_iam_role.name.arn
