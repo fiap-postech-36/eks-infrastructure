@@ -33,14 +33,13 @@ Em seguida, chame o módulo para criar a VPC e as sub-redes. Adicione a seguinte
 
 ```hcl
 module "vpc" {
-  source = "github.com/fiap-postech-36/eks-infrastructure?ref=v1.1.0"  # Chama o módulo VPC do repositório
+  source = "github.com/fiap-postech-36/eks-infrastructure?ref=v1.0.0"  # Chama o módulo VPC do repositório
 
-  cluster_name                = "my-cluster" # Nome do cluster
-  create_eks                  = true # Define se vai criar o cluster ou não
-  vpc_id                      = "vpc-id-value"
-  default_region              = ["us-east-1"] # Região padrão previamente definida no provider  
+  cluster_name                = "my-cluster"                # Nome do cluster
+  vpc_id            = "vpc-id-value"
+  default_region = ["us-east-1"] # Região padrão previamente definida no provider  
 
-  security_group_id            = "sg-id-value" # ID do security group
+  security_group_id = "sg-id-value" # ID do security group
 }
 ```
 
